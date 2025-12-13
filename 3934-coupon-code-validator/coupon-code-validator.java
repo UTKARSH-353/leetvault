@@ -1,34 +1,34 @@
-import java.util.*;
-
 class Solution {
     public List<String> validateCoupons(String[] code, String[] businessLine, boolean[] isActive) {
-
-        // Business line priority
-        Map<String, Integer> priority = new HashMap<>();
-        priority.put("electronics", 0);
-        priority.put("grocery", 1);
-        priority.put("pharmacy", 2);
-        priority.put("restaurant", 3);
-        List<String[]> validCoupons = new ArrayList<>();
+        List<String> electronics = new ArrayList<>();
+        List<String> grocery = new ArrayList<>();
+        List<String> pharmacy = new ArrayList<>();
+        List<String> restaurant = new ArrayList<>();
         for (int i = 0; i < code.length; i++) {
             if (!isActive[i]) continue;
-            if (!priority.containsKey(businessLine[i])) continue;
-            if (code[i].length() == 0 || !isValid(code[i])) continue;
-            validCoupons.add(new String[]{businessLine[i], code[i]});
+            if (code[i].isEmpty() || !isValidCode(code[i])) continue;
+            if (businessLine[i].equals("electronics")) {
+                electronics.add(code[i]);
+            } else if (businessLine[i].equals("grocery")) {
+                grocery.add(code[i]);
+            } else if (businessLine[i].equals("pharmacy")) {
+                pharmacy.add(code[i]);
+            } else if (businessLine[i].equals("restaurant")) {
+                restaurant.add(code[i]);
+            }
         }
-        Collections.sort(validCoupons, (a, b) -> {
-            int p1 = priority.get(a[0]);
-            int p2 = priority.get(b[0]);
-            if (p1 != p2) return p1 - p2;
-            return a[1].compareTo(b[1]);
-        });
+        Collections.sort(electronics);
+        Collections.sort(grocery);
+        Collections.sort(pharmacy);
+        Collections.sort(restaurant);
         List<String> result = new ArrayList<>();
-        for (String[] coupon : validCoupons) {
-            result.add(coupon[1]);
-        }
+        result.addAll(electronics);
+        result.addAll(grocery);
+        result.addAll(pharmacy);
+        result.addAll(restaurant);
         return result;
     }
-    private boolean isValid(String s) {
+    private boolean isValidCode(String s) {
         for (char c : s.toCharArray()) {
             if (!Character.isLetterOrDigit(c) && c != '_') {
                 return false;
