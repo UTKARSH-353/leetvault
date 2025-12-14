@@ -1,12 +1,11 @@
 class Solution {
-    public int findPoisonedDuration(int[] tSeries, int duration) {
-        int tTime = 0;
-
-        for (int i = 0; i < tSeries.length - 1; i++) {
-            int gap = tSeries[i + 1] - tSeries[i];
-            tTime += Math.min(duration, gap);
+    public int findPoisonedDuration(int[] timeSeries, int duration) {
+        int totalTime = 0;
+        for (int i = 0; i < timeSeries.length - 1; i++) {
+            int gap = timeSeries[i + 1] - timeSeries[i];
+            totalTime += Math.min(duration, gap);
         }
-        tTime += duration;
-        return tTime;
+        totalTime += duration;
+        return totalTime;
     }
 }
