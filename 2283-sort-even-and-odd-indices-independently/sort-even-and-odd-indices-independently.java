@@ -1,5 +1,3 @@
-import java.util.*;
-
 class Solution {
     public int[] sortEvenOdd(int[] nums) {
         List<Integer> even = new ArrayList<>();
@@ -12,7 +10,7 @@ class Solution {
             }
         }
         Collections.sort(even);                   
-        Collections.sort(odd, Collections.reverseOrder());
+        Collections.sort(odd, Collections.reverseOrder()); 
         int e = 0, o = 0;
         for (int i = 0; i < nums.length; i++) {
             if (i % 2 == 0) {
