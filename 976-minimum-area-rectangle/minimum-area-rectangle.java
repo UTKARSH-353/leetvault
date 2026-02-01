@@ -1,5 +1,3 @@
-import java.util.*;
-
 class Solution {
     public int minAreaRect(int[][] points) {
         Set<String> set = new HashSet<>();
@@ -17,8 +15,6 @@ class Solution {
                 int y1 = points[i][1];
                 int x2 = points[j][0];
                 int y2 = points[j][1];
-
-                // check diagonal points
                 if (x1 != x2 && y1 != y2) {
                     if (set.contains(x1 + "," + y2) &&
                         set.contains(x2 + "," + y1)) {
