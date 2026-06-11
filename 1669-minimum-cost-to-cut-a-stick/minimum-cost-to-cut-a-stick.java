@@ -1,45 +1,49 @@
-import java.util.*;
-
 class Solution {
-    public int minCost(int n, int[] cuts) {
 
-        int m = cuts.length;
+    int[][] dp;
+    int[] cuts;
 
-        int[] arr = new int[m + 2];
-        arr[0] = 0;
-        arr[m + 1] = n;
+    public int minCost(int n, int[] cutsArr) {
+
+        int m = cutsArr.length;
+
+        cuts = new int[m + 2];
+        cuts[0] = 0;
+        cuts[m + 1] = n;
 
         for (int i = 0; i < m; i++) {
-            arr[i + 1] = cuts[i];
+            cuts[i + 1] = cutsArr[i];
         }
 
-        Arrays.sort(arr);
+        Arrays.sort(cuts);
 
-        int[][] dp = new int[m + 2][m + 2];
+        dp = new int[m + 2][m + 2];
 
-        for (int len = 2; len < m + 2; len++) {
+        return solve(0, m + 1);
+    }
 
-            for (int i = 0; i + len < m + 2; i++) {
+    private int solve(int i, int j) {
 
-                int j = i + len;
-                dp[i][j] = Integer.MAX_VALUE;
-
-                for (int k = i + 1; k < j; k++) {
-
-                    dp[i][j] = Math.min(
-                        dp[i][j],
-                        arr[j] - arr[i]
-                        + dp[i][k]
-                        + dp[k][j]
-                    );
-                }
-
-                if (dp[i][j] == Integer.MAX_VALUE) {
-                    dp[i][j] = 0;
-                }
-            }
+        if (j - i <= 1) {
+            return 0;
         }
 
-        return dp[0][m + 1];
+        if (dp[i][j] != 0) {
+            return dp[i][j];
+        }
+
+        int ans = Integer.MAX_VALUE;
+
+        for (int k = i + 1; k < j; k++) {
+
+            ans = Math.min(
+                ans,
+                cuts[j] - cuts[i]
+                + solve(i, k)
+                + solve(k, j)
+            );
+        }
+
+        return dp[i][j] = ans;
     }
 }
